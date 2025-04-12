@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Time Management App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🕒 Time Management App</h1>
+
+        <form action="/add" method="POST" class="task-form">
+            <input type="text" name="task" placeholder="Enter your task" required>
+            <input type="datetime-local" name="deadline">
+            <button type="submit">Add Task</button>
+        </form>
+
+        <ul class="task-list">
+            {% for task in tasks %}
+                <li class="task-item {{ 'done' if task[3] else '' }}">
+                    <div class="task-info">
+                        <strong>{{ task[1] }}</strong>
+                        {% if task[2] %}
+                            <span class="deadline">🕓 {{ task[2] }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="actions">
+                        {% if not task[3] %}
+                            <a href="/done/{{ task[0] }}">✅</a>
+                        {% endif %}
+                        <a href="/delete/{{ task[0] }}">❌</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
